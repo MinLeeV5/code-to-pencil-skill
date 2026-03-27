@@ -24,6 +24,7 @@
 |-- references/
 `-- scripts/
     |-- build_pencil_prompt.py
+    |-- run_pencil_cli.py
     `-- validate_pen.py
 ```
 
@@ -39,8 +40,37 @@ ln -s /absolute/path/to/code-to-pencil /path/to/project/.agent/skills/code-to-pe
 
 ```bash
 .agent/skills/code-to-pencil/scripts/build_pencil_prompt.py
+.agent/skills/code-to-pencil/scripts/run_pencil_cli.py
 .agent/skills/code-to-pencil/scripts/validate_pen.py
 ```
+
+## Agent 对齐的 CLI 选择
+
+建议让 Pencil 相关 CLI 与当前触发 Skill 的 Agent 保持一致：
+
+- Codex 触发时，优先走 `codex`
+- Claude Code 触发时，优先走 `claude`
+
+可通过统一入口脚本自动选择：
+
+```bash
+python .agent/skills/code-to-pencil/scripts/run_pencil_cli.py --print-command
+```
+
+选择优先级如下：
+
+1. `--agent codex|claude-code`
+2. `PENCIL_CLI_AGENT`
+3. 当前会话环境自动探测
+
+如果默认命令名不对，可分别覆盖：
+
+```bash
+PENCIL_CLI_COMMAND_CODEX=/custom/bin/codex
+PENCIL_CLI_COMMAND_CLAUDE_CODE=/custom/bin/claude
+```
+
+如果检测到对应 Agent，但本机没有对应 CLI，脚本会直接报错，不会静默降级到别的 CLI。
 
 ## 基本流程
 
