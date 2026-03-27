@@ -1,0 +1,7 @@
+interface:
+  display_name: "Code to Pencil"
+  short_description: "基于代码生成并校验 Pencil 基线稿"
+  default_prompt: "Use $code-to-pencil to turn an existing page implementation into a validated Pencil baseline by scanning code, building a structured pencil --prompt request, and validating the generated .pen output."
+
+policy:
+  allow_implicit_invocation: true
